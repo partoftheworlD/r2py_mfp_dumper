@@ -1,7 +1,8 @@
+#!/usr/bin/python3
 import r2pipe
 import re
 
-re_temp = re.compile(r'0x[0-9a-f]{2,4}\]')
+re_temp = re.compile(r'(0x[a-f0-9]{3,4}\b)')
 
 def fnc_1():
     try:
@@ -20,7 +21,7 @@ def get_offset(h_r2, flag):
     h_r2.cmd('s ' + str(flag))
     info = h_r2.cmd("pd -40~rbx")
     info = re.findall(re_temp, info)
-    return int(info[0][2:-1], 16) + int(info[1][2:-1], 16) + 4
+    return int(info[0], 16) + int(info[1], 16) + 4
 
 def get_ptr(h_r2, flag):
     h_r2.cmd('s '+ str(flag))
